@@ -1,0 +1,9 @@
+google-cloud-storage
+requests
+certifi
+google-api-core
+google-cloud-firestore
+scikit-learn
+pyyaml
+PyGithub
+dvc[all]
