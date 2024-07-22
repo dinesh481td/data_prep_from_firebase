@@ -1,23 +1,21 @@
-# Installation instruction
+# **Superannotate** :-
 
-* clone the repo
-* Install pipx
-    * `pip install pipx`
-    * `pipx ensurepath`
-* Install poetry
-    * `pipx install poetry`
-* Run `poetry install`
-    * This should create a virtual environment and install all dependencies in the venv
-If there is an error with keyring:
-   To check the installation process:poetry install -vvv
-   export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
-If you are using custom package
-   * `poetry self update && poetry self add keyrings.google-artifactregistry-auth`
-   * `poetry install`
-* # Setup pre-commit and pre-push hooks
-poetry run pre-commit install -t pre-commit
+- When a project's status is set to 'completed' in the Superannotate Tool, it triggers a webhook. This sends a request to the URL of the first cloud function, which is ***'Push images to GCP cloud function'.***
 
-poetry run pre-commit install -t pre-push
+# Push images to GCP cloud function :-
 
-* # Documentation Link in Notion:
-   * https://www.notion.so/Data-pipelines-581043adc8be470f9203e87ab7d74679
+- After the HTTPS trigger, the cloud function activates. It starts preparing an export from the respective SuperAnnotate project. It retrieves images with annotation statuses of 'Quality Check' and 'Completed'. Then, it pushes these images to GCP.
+- Lastly, it will send a webhook to the subsequent cloud function.
+
+# Firebase update cloud function :-
+
+- This function retrieves the annotations of the respective project, converts them into COCO format, and starts calculating image attributes such as brightness, contrast, sharpness, average RGB value, and density, etc....
+- These attributes can be used for data extrapolation and YOLOv8 training.
+
+# Firebase :-
+
+- Now, all necessary data for retraining is available. Each document refers to an image and its corresponding annotations and attribute details.
+
+# Download Data from Firebase for Training :-
+
+The above GitHub repo has the script to download and prepare the data for training Yolox and yolov8 format.
